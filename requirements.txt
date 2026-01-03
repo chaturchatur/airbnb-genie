@@ -1,0 +1,10 @@
+auto-sklearn
+pandas
+numpy
+scikit-learn
+streamlit
+holidays
+joblib
+matplotlib
+seaborn
+
