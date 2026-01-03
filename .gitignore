@@ -1,0 +1,27 @@
+# code history
+.histroy
+
+# data
+data/**/*.csv
+data/cleaned_listings.csv
+data/processed_reviews.csv
+data/raw/*.csv
+
+# models
+models/*.pkl
+
+# cursor
+.cursor/
+.curorrules
+
+# python
+__pycache__/
+*.pyc
+.venv
+venv/
+*.egg-info/
+
+# system
+.DS_Store
+.env
+
