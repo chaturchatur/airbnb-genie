@@ -6,8 +6,8 @@ import ast
 
 def load_data():
     """load listings and reviews data"""
-    listings_path = 'data/listings.csv'
-    reviews_path = 'data/reviews.csv'
+    listings_path = 'data/raw/listings.csv'
+    reviews_path = 'data/raw/reviews.csv'
     
     if not os.path.exists(listings_path) or not os.path.exists(reviews_path):
         print("error: data files not found")
@@ -60,8 +60,8 @@ def fill_missing(data_frame):
             return float(match_val.group(1))
         return np.nan
 
-    data_frame['bath_clean'] = data_frame['bathrooms_text'].apply(parse_bath)
-    data_frame['bath_clean'] = data_frame['bath_clean'].fillna(data_frame['bath_clean'].median())
+    data_frame['bathrooms_cleaned'] = data_frame['bathrooms_text'].apply(parse_bath)
+    data_frame['bathrooms_cleaned'] = data_frame['bathrooms_cleaned'].fillna(data_frame['bathrooms_cleaned'].median())
 
     data_frame['has_reviews'] = np.where(data_frame['number_of_reviews'] > 0, 1, 0)
     
@@ -97,8 +97,8 @@ def add_features(data_frame):
         pd.NA: 0,
         np.nan: 0
     }
-    data_frame['host_resp_enc'] = data_frame['host_response_time'].map(time_map).fillna(0)
-    data_frame['superhost_enc'] = data_frame['host_is_superhost'].map({'t': 1, 'f': 0}).fillna(0)
+    data_frame['host_response_time_encoded'] = data_frame['host_response_time'].map(time_map).fillna(0)
+    data_frame['host_is_superhost_encoded'] = data_frame['host_is_superhost'].map({'t': 1, 'f': 0}).fillna(0)
 
     # one-hot encode categorical variables
     data_frame = pd.get_dummies(data_frame, columns=['room_type', 'neighbourhood_cleansed'], prefix=['room', 'nb'], dummy_na=False)
@@ -143,7 +143,7 @@ def main():
     
     print(f"cleaned listings shape: {listings_df.shape}")
     
-    crit_cols = ['price', 'bedrooms', 'beds', 'bath_clean']
+    crit_cols = ['price', 'bedrooms', 'beds', 'bathrooms_cleaned']
     miss_vals = listings_df[crit_cols].isnull().sum()
     print("missing values in critical columns after cleaning:")
     print(miss_vals)
