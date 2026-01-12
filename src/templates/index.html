@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb Price Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Airbnb Price Estimator</h1>
+            <p>Enter your listing details to get a price prediction.</p>
+        </header>
+
+        <form id="prediction-form">
+            <div class="form-group">
+                <label for="name">Listing Title (Name)</label>
+                <input type="text" id="name" name="name" placeholder="e.g. Luxury Apartment with View">
+            </div>
+
+            <div class="row">
+                <div class="form-group half">
+                    <label for="latitude">Latitude</label>
+                    <input type="number" step="any" id="latitude" name="latitude" value="38.9072" required>
+                </div>
+                <div class="form-group half">
+                    <label for="longitude">Longitude</label>
+                    <input type="number" step="any" id="longitude" name="longitude" value="-77.0369" required>
+                </div>
+            </div>
+            <small class="hint">Defaults to Washington DC center.</small>
+
+            <div class="row">
+                <div class="form-group half">
+                    <label for="neighbourhood">Neighbourhood</label>
+                    <select id="neighbourhood" name="neighbourhood_cleansed" required>
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+                <div class="form-group half">
+                    <label for="room_type">Room Type</label>
+                    <select id="room_type" name="room_type" required>
+                        <option value="">Loading...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group third">
+                    <label for="accommodates">Accommodates</label>
+                    <input type="number" id="accommodates" name="accommodates" value="2" min="1">
+                </div>
+                <div class="form-group third">
+                    <label for="bedrooms">Bedrooms</label>
+                    <input type="number" id="bedrooms" name="bedrooms" value="1" min="0">
+                </div>
+                <div class="form-group third">
+                    <label for="beds">Beds</label>
+                    <input type="number" id="beds" name="beds" value="1" min="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bathrooms_text">Bathrooms</label>
+                <input type="text" id="bathrooms_text" name="bathrooms_text" placeholder="e.g. 1 bath, 1.5 baths">
+            </div>
+
+            <div class="form-group">
+                <label>Amenities</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="amenities" value="Wifi"> Wifi</label>
+                    <label><input type="checkbox" name="amenities" value="Air conditioning"> Air conditioning</label>
+                    <label><input type="checkbox" name="amenities" value="Kitchen"> Kitchen</label>
+                    <label><input type="checkbox" name="amenities" value="Washer"> Washer</label>
+                    <label><input type="checkbox" name="amenities" value="Dryer"> Dryer</label>
+                    <label><input type="checkbox" name="amenities" value="Heating"> Heating</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group half">
+                    <label for="host_response_time">Host Response Time</label>
+                    <select id="host_response_time" name="host_response_time">
+                        <option value="within an hour">Within an hour</option>
+                        <option value="within a few hours">Within a few hours</option>
+                        <option value="within a day">Within a day</option>
+                        <option value="a few days or more">A few days or more</option>
+                    </select>
+                </div>
+                <div class="form-group half">
+                    <label for="host_is_superhost">Superhost?</label>
+                    <div class="single-checkbox">
+                        <input type="checkbox" id="host_is_superhost" name="host_is_superhost">
+                        <span>Yes, I am a Superhost</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" id="submit-btn">Predict Price</button>
+        </form>
+
+        <div id="result" class="hidden">
+            <h2>Estimated Price: <span id="price-value">--</span></h2>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
