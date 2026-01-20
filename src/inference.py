@@ -119,7 +119,8 @@ def predict_price(input_data, model, artifacts):
         try:
             lat = float(df['latitude'].iloc[0])
             lon = float(df['longitude'].iloc[0])
-            df['spatial_cluster'] = kmeans_mod.predict([[lat, lon]])[0]
+            coords_df = pd.DataFrame([[lat, lon]], columns=['latitude', 'longitude'])
+            df['spatial_cluster'] = kmeans_mod.predict(coords_df)[0]
             
             dc_center = np.array([38.8977, -77.0365])
             df['dist_to_center'] = np.sqrt((lat - dc_center[0])**2 + (lon - dc_center[1])**2)
