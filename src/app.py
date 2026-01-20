@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 import os
+import json
 from inference import load_model_and_artifacts, predict_price
 
 app = Flask(__name__)
@@ -48,27 +49,15 @@ def predict():
 
 @app.route('/config', methods=['GET'])
 def get_config():
-    global artifacts
-    if not artifacts:
-        model, artifacts = load_model_and_artifacts()
-    
-    if not artifacts:
-        return jsonify({'error': 'artifacts not loaded'}), 500
-        
-    cols = artifacts['feature_columns']
-    neighbourhoods = []
-    room_types = []
-    
-    for c in cols:
-        if c.startswith('nb_'):
-            neighbourhoods.append(c.replace('nb_', ''))
-        elif c.startswith('room_'):
-            room_types.append(c.replace('room_', ''))
-            
-    return jsonify({
-        'neighbourhoods': sorted(neighbourhoods),
-        'room_types': sorted(room_types)
-    })
+    """return pre-extracted config without loading model"""
+    try:
+        config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+        with open(config_path, 'r') as f:
+            config = json.load(f)
+        return jsonify(config)
+    except Exception as e:
+        print(f"error loading config: {e}")
+        return jsonify({'error': 'config not available'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
