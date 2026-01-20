@@ -7,8 +7,8 @@ data/cleaned_listings.csv
 data/processed_reviews.csv
 data/raw/*.csv
 
-# models
-models/*.pkl
+# models - only ignore the large autosklearn model
+models/autosklearn_model.pkl
 
 # cursor
 .cursor/
