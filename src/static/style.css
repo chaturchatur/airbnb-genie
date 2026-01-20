@@ -102,17 +102,23 @@ body {
     line-height: 1.3;
 }
 
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+}
+
 /* Main Container */
 .container {
-    flex: 1;
     background: white;
     padding: 30px 40px;
     max-width: 650px;
-    margin: 20px;
+    width: 100%;
     border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-    height: fit-content;
-    align-self: flex-start;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 header {
@@ -152,7 +158,8 @@ select {
     box-sizing: border-box;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: var(--secondary);
 }
@@ -252,7 +259,7 @@ button:disabled {
     .page-wrapper {
         flex-direction: column;
     }
-    
+
     .presets-sidebar {
         width: 100%;
         min-width: unset;
@@ -261,27 +268,32 @@ button:disabled {
         padding: 20px;
         gap: 12px;
     }
-    
+
     .presets-sidebar h2 {
         width: 100%;
     }
-    
+
     .sidebar-desc {
         width: 100%;
     }
-    
+
     .preset-card {
         flex: 1;
         min-width: 200px;
     }
-    
+
     .preset-card:hover {
         transform: translateY(-2px);
     }
-    
+
+    .main-content {
+        padding: 0;
+    }
+
     .container {
         margin: 20px;
         max-width: none;
+        border-radius: 0;
     }
 }
 
@@ -289,12 +301,12 @@ button:disabled {
     .preset-card {
         min-width: 100%;
     }
-    
+
     .row {
         flex-direction: column;
         gap: 0;
     }
-    
+
     .container {
         padding: 20px;
         margin: 10px;
