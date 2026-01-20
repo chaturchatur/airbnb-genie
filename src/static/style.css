@@ -1,9 +1,17 @@
 :root {
-    --primary: #FF385C; /* Airbnb Red */
+    --primary: #FF385C;
     --secondary: #008489;
     --bg: #f7f7f7;
     --text: #484848;
     --border: #dddddd;
+    --sidebar-bg: #1a1a2e;
+    --sidebar-text: #eaeaea;
+    --card-bg: #16213e;
+    --card-hover: #0f3460;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
@@ -11,18 +19,100 @@ body {
     background-color: var(--bg);
     color: var(--text);
     margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
+    padding: 0;
+    min-height: 100vh;
 }
 
+.page-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.presets-sidebar {
+    width: 280px;
+    min-width: 280px;
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.presets-sidebar h2 {
+    margin: 0 0 5px 0;
+    font-size: 1.4rem;
+    color: #fff;
+}
+
+.sidebar-desc {
+    margin: 0 0 10px 0;
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.preset-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.preset-card:hover {
+    background: var(--card-hover);
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
+.preset-card.active {
+    border-color: var(--primary);
+    background: var(--card-hover);
+}
+
+.preset-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.preset-info h3 {
+    margin: 0 0 4px 0;
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.preset-info p {
+    margin: 0;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    line-height: 1.3;
+}
+
+/* Main Container */
 .container {
+    flex: 1;
     background: white;
-    padding: 30px;
+    padding: 30px 40px;
+    max-width: 650px;
+    margin: 20px;
     border-radius: 12px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-    width: 100%;
-    max-width: 600px;
+    height: fit-content;
+    align-self: flex-start;
 }
 
 header {
@@ -33,6 +123,11 @@ header {
 h1 {
     color: var(--primary);
     margin: 0 0 10px 0;
+}
+
+header p {
+    margin: 0;
+    color: #767676;
 }
 
 .form-group {
@@ -54,7 +149,7 @@ select {
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 1rem;
-    box-sizing: border-box; /* Fix padding issue */
+    box-sizing: border-box;
 }
 
 input:focus, select:focus {
@@ -90,6 +185,12 @@ input:focus, select:focus {
     display: flex;
     align-items: center;
     gap: 5px;
+    transition: background 0.2s;
+}
+
+.checkbox-group label:has(input:checked) {
+    background: var(--secondary);
+    color: white;
 }
 
 .single-checkbox {
@@ -116,12 +217,16 @@ button:hover {
     background-color: #d93250;
 }
 
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 .hint {
     display: block;
     font-size: 0.8rem;
     color: #767676;
-    margin-top: -15px;
-    margin-bottom: 15px;
+    margin-top: 6px;
 }
 
 #result {
@@ -134,7 +239,64 @@ button:hover {
     color: #166534;
 }
 
+#result h2 {
+    margin: 0;
+}
+
 .hidden {
     display: none;
 }
 
+/* Responsive Design */
+@media (max-width: 900px) {
+    .page-wrapper {
+        flex-direction: column;
+    }
+    
+    .presets-sidebar {
+        width: 100%;
+        min-width: unset;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 20px;
+        gap: 12px;
+    }
+    
+    .presets-sidebar h2 {
+        width: 100%;
+    }
+    
+    .sidebar-desc {
+        width: 100%;
+    }
+    
+    .preset-card {
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .preset-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .container {
+        margin: 20px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .preset-card {
+        min-width: 100%;
+    }
+    
+    .row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+}
