@@ -70,6 +70,36 @@ Run the scripts in the following order to reproduce the analysis:
    python src/baseline_model_v2.py
    ```
 
+5. **Fair-price ranking + sensitivity analysis**:
+   Turns the trained price predictor into a value-ranking engine. For every
+   real listing it predicts the "fair" price, compares it to the actual price,
+   and flags each listing as overpriced / fair / underpriced.
+
+   ```bash
+   python src/rank_listings.py
+   ```
+
+   What it does:
+   - Predicts the fair price for each listing using the saved gradient boosting
+     model (inverting the `log1p` target with `expm1`).
+   - Computes `residual = actual - predicted` and `pct_diff = residual / predicted`,
+     then flags `overpriced` (pct_diff > +15%), `underpriced` (< -15%), or `fair`.
+     The 15% cutoff is the `PRICE_DIFF_THRESHOLD` constant.
+   - Ranks all listings by `pct_diff` and writes `data/processed/listing_value_ranking.csv`
+     (columns: id, neighbourhood, actual, predicted, pct_diff, flag).
+   - Sensitivity (a): permutation feature importance on the trained model
+     (`data/processed/feature_sensitivity.csv`) -- how much each feature actually
+     moves price, i.e. the model's implicit feature weights.
+   - Sensitivity (b): sweeps the flag threshold over `[0.10, 0.15, 0.20, 0.25]`
+     and reports how the flagged counts and the top-20 over/underpriced sets
+     change, as a stability / defensibility check.
+
+   Quick logic smoke test (no data or model required):
+
+   ```bash
+   python src/test_rank_listings.py
+   ```
+
 ## Results
 
 Key outputs are saved in the `results/` directory, including:
